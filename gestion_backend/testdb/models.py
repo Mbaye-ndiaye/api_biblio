@@ -27,10 +27,10 @@ class CustomUser(AbstractUser):
         message="Le numéro de téléphone doit être au format: '999999999'"
     )
     telephone = models.CharField(validators=[phone_regex], max_length=17)
-    is_staff = models.BooleanField(default=False, null=True, blank=True)
+    is_staff = models.BooleanField(default=True, null=True, blank=True)
     is_active = models.BooleanField(default=True, null=True, blank=True)
     date_joined = models.DateField(auto_now_add=True, null=True)
-    is_superuser = models.BooleanField(default=False, null=True)
+    is_superuser = models.BooleanField(default=True, null=True)
     is_admin = models.BooleanField(default=False, null=True)
 
     USERNAME_FIELD = 'email'
