@@ -9,7 +9,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.models import AuthToken
 from rest_framework import generics
 from .models import Member, Livre, Emprunt
-from .serializers import UserRegistrationSerializer, UserLoginSerializer, LivreSerializer, EmpruntSerializer
+from .serializers import MemberSerializer, UserRegistrationSerializer, UserLoginSerializer, LivreSerializer, EmpruntSerializer
 
 @api_view(['POST'])
 def register(request):
