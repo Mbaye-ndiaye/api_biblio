@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register, login, logout, MemberListCreateView, MemberDetailView, LivreListCreateView, LivreDetailView, EmpruntListCreateView, EmpruntDetailView
+from .views import register, login, logout, MemberListCreateView, MemberDetailView, LivreListCreateView, LivreDetailView, EmpruntListCreateView, EmpruntDetailView, return_emprunt
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
@@ -22,4 +22,7 @@ urlpatterns = [
     
     # Cheikh Gueue : Endpoint pour rafraichir le token
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    # Cheikh Gueue : Endpoint pour rendre un emprun
+    path('emprunts/<int:emprunt_id>/return/', return_emprunt, name='return-emprunt'),
 ]

@@ -27,14 +27,45 @@ class UserLoginSerializer(serializers.Serializer):
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = '__all__' 
+        fields = [
+            'id', 
+            'prenom', 
+            'nom', 
+            'telephone', 
+            'email'
+        ]
+
 
 class LivreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Livre
-        fields = ['id', 'titre', 'auteur', 'date_de_publication', 'categorie', 'nbr_copies_dispo', 'total_copies', 'couverture']
+        fields = [
+            'id', 
+            'titre', 
+            'auteur', 
+            'date_de_publication', 
+            'categorie', 
+            'nbr_copies_dispo', 
+            'total_copies', 
+            'couverture'
+        ]
+
 
 class EmpruntSerializer(serializers.ModelSerializer):
+    livre_details = LivreSerializer(source='livre', read_only=True)
+    membre_details = MemberSerializer(source='membre', read_only=True)
+
     class Meta:
         model = Emprunt
-        fields = ['id', 'membre', 'livre', 'date_emprunt', 'date_de_retour', 'date_echeance', 'is_returned']
+        fields = [
+            'id', 
+            'membre', 
+            'livre', 
+            'date_emprunt', 
+            'date_de_retour', 
+            'date_echeance', 
+            'is_returned', 
+            'livre_details', 
+            'membre_details'
+        ]
+
