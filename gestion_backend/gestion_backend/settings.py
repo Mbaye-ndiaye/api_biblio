@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from celery.schedules import crontab
 from pathlib import Path
 import environ
 env = environ.Env()
@@ -149,3 +149,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'testdb.CustomUser'
+
+# Cheikh Gueye
+CELERY_BEAT_SCHEDULE = {
+    'check-emprunts-every-1-hour': {
+        'task': 'testdb.tasks.check_emprunts',
+        'schedule': crontab(minute=0, hour='*'),
+    },
+}

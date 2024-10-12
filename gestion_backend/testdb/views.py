@@ -99,6 +99,8 @@ class EmpruntListCreateView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         membre_id = request.data.get('membre')
+        livre_id = request.data.get('livre')
+        livre = Livre.objects.get(id=livre_id)
         
         # Vérifier si l'utilisateur a déjà 3 emprunts actifs (non retournés)
         active_emprunts = Emprunt.objects.filter(membre_id=membre_id, is_returned=False).count()
@@ -136,10 +138,12 @@ def return_emprunt(request, emprunt_id):
         if emprunt.membre.id != request.user.id:
             return Response({'error': 'Vous ne pouvez pas retourner cet emprunt.'}, status=status.HTTP_403_FORBIDDEN)
 
-        # Mettre à jour l'état de l'emprunt
-        emprunt.is_returned = True
-        emprunt.date_de_retour = datetime.now()  # Enregistre la date de retour
-        emprunt.save()
+        # Vérifie la date d'échéance
+        if datetime.now() > emprunt.date_echeance:
+            emprunt.is_returned = True
+            emprunt.livre.emprunts_en_cours -= 1
+            emprunt.livre.save()
+            emprunt.save()
 
         return Response(EmpruntSerializer(emprunt).data, status=status.HTTP_200_OK)
     except Emprunt.DoesNotExist:
