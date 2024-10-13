@@ -11,6 +11,7 @@ from rest_framework import generics
 from .models import Member, Livre, Emprunt
 from .serializers import MemberSerializer, UserRegistrationSerializer, UserLoginSerializer, LivreSerializer, EmpruntSerializer
 from datetime import datetime
+from django.utils import timezone
 from django.db.models import Count
 
 @api_view(['POST'])
@@ -134,17 +135,34 @@ def return_emprunt(request, emprunt_id):
     try:
         emprunt = Emprunt.objects.get(id=emprunt_id)
 
-        # Vérifie que le livre a été emprunté par l'utilisateur
-        if emprunt.membre.id != request.user.id:
+        # Vérifie que le livre a été emprunté par l'utilisateur connecté
+        if emprunt.membre.user.id != request.user.id:
             return Response({'error': 'Vous ne pouvez pas retourner cet emprunt.'}, status=status.HTTP_403_FORBIDDEN)
 
-        # Vérifie la date d'échéance
-        if datetime.now() > emprunt.date_echeance:
+        # Vérifie si l'emprunt a déjà été retourné
+        if emprunt.is_returned:
+            return Response({'message': 'Cet emprunt a déjà été retourné.'}, status=status.HTTP_200_OK)
+
+        # Comparer avec timezone.now() pour éviter l'erreur de décalage
+        if timezone.now() > emprunt.date_echeance:
             emprunt.is_returned = True
             emprunt.livre.emprunts_en_cours -= 1
             emprunt.livre.save()
             emprunt.save()
+            return Response({
+                'message': 'Le livre a été retourné automatiquement après dépassement de la date d\'échéance.',
+                'emprunt': EmpruntSerializer(emprunt).data
+            }, status=status.HTTP_200_OK)
 
-        return Response(EmpruntSerializer(emprunt).data, status=status.HTTP_200_OK)
+        # Retour manuel
+        emprunt.is_returned = True
+        emprunt.livre.emprunts_en_cours -= 1
+        emprunt.livre.save()
+        emprunt.save()
+        return Response({
+            'message': 'Le livre a été retourné avec succès.',
+            'emprunt': EmpruntSerializer(emprunt).data
+        }, status=status.HTTP_200_OK)
+
     except Emprunt.DoesNotExist:
         return Response({'error': 'Emprunt non trouvé.'}, status=status.HTTP_404_NOT_FOUND)
