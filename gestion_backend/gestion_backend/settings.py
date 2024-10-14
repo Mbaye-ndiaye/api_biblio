@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from celery.schedules import crontab
 from pathlib import Path
 import environ
 env = environ.Env()
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "testdb",
     'rest_framework',
+    'knox',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
 ]
@@ -91,6 +92,9 @@ DATABASES = {
         'PASSWORD': env("DB_PASSWORD"),
         'HOST': env("DB_HOST"),
         'PORT': env("DB_PORT"),
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        },
     }
 }
 
@@ -154,3 +158,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'testdb.CustomUser'
+
+# Cheikh Gueye
+CELERY_BEAT_SCHEDULE = {
+    'check-emprunts-every-1-hour': {
+        'task': 'testdb.tasks.check_emprunts',
+        'schedule': crontab(minute=0, hour='*'),
+    },
+}

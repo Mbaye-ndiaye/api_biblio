@@ -8,4 +8,5 @@ class EmailBackend(ModelBackend):
             if user.check_password(password):
                 return user
         except CustomUser.DoesNotExist:
+            print(f"No user found with email: {email}")
             return None
