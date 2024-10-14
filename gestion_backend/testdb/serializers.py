@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import Member, CustomUser, Livre, Emprunt
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,3 +23,52 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
+
+class MemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = [
+            'id', 
+            'prenom', 
+            'nom', 
+            'telephone', 
+            'email'
+        ]
+
+
+class LivreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Livre
+        fields = [
+            'id', 
+            'titre', 
+            'auteur', 
+            'date_de_publication', 
+            'categorie', 
+            'nbr_copies_dispo', 
+            'total_copies', 
+            'couverture'
+        ]
+
+
+class EmpruntSerializer(serializers.ModelSerializer):
+    livre_details = LivreSerializer(source='livre', read_only=True)
+    membre_details = MemberSerializer(source='membre', read_only=True)
+
+    membre_nom = serializers.CharField(source='membre.nom', read_only=True)
+    livre_titre = serializers.CharField(source='livre.titre', read_only=True)
+
+    class Meta:
+        model = Emprunt
+        fields = [
+            'id', 
+            'membre', 
+            'livre', 
+            'date_emprunt', 
+            'date_echeance', 
+            'is_returned', 
+            'livre_details', 
+            'membre_details',
+            'membre_nom',
+            'livre_titre',
+        ]
