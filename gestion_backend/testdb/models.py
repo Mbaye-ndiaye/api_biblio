@@ -4,6 +4,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Cheikh Gueye : Création du modèle 'Member' pour les membres
@@ -25,6 +27,7 @@ class Livre(models.Model):
     categorie = models.CharField(max_length=100)
     total_copies = models.IntegerField(default=0)  # Total de copies ajoutées
     emprunts_en_cours = models.IntegerField(default=0)  # Par défaut, 0 livres empruntés
+    copies_restantes = models.IntegerField(default=0)
     couverture = models.ImageField(upload_to='covers/', blank=True, null=True)
 
     @property
@@ -35,9 +38,14 @@ class Livre(models.Model):
     def is_available(self):
         # Vérifie s'il reste des livres disponibles
         return self.nbr_copies_dispo > 0
+    
+    def save(self, *args, **kwargs):
+        # Mettre à jour copies_restantes chaque fois que le livre est sauvegardé
+        self.copies_restantes = self.total_copies - self.emprunts_en_cours
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.titr
+        return self.titre
 
 
 # Cheikh Gueye : Création du modèle 'Emprunt' pour emprunter les livres
@@ -54,17 +62,20 @@ class Emprunt(models.Model):
         if not self.pk:  # Lors de la création d'un nouvel emprunt
             if self.livre.is_available():
                 self.livre.emprunts_en_cours += 1
-                self.livre.save()
-                
+                self.livre.copies_restantes -= 1
+                self.livre.save()  # Sauvegarder pour mettre à jour les valeurs
                 # Mettre à jour les champs des noms
                 self.membre_nom = f"{self.membre.prenom} {self.membre.nom}"
                 self.livre_titre = self.livre.titre
             else:
                 raise ValueError("Le livre n'est pas disponible.")
-        elif self.is_returned:  # Lors du retour d'un emprunt
-            self.livre.emprunts_en_cours -= 1
-            self.livre.save()
-            
+        else:  # Lors de la mise à jour d'un emprunt
+            if self.is_returned and not self.livre.is_available():  # Vérifier si c'est un retour
+                # Réinitialiser les valeurs
+                self.livre.emprunts_en_cours -= 1
+                self.livre.copies_restantes += 1  # Réinitialiser le nombre de copies restantes
+                self.livre.save()
+        
         super().save(*args, **kwargs)
 
     def check_auto_return(self):
@@ -76,6 +87,20 @@ class Emprunt(models.Model):
 
     def __str__(self):
         return f"{self.membre} - {self.livre} ({'Rendu' if self.is_returned else 'Non Rendu'})"
+
+@receiver(post_save, sender=Emprunt)
+def update_livre_counts(sender, instance, created, **kwargs):
+    livre = instance.livre
+
+    if created:  # Si un nouvel emprunt a été créé
+        livre.emprunts_en_cours += 1
+        livre.copies_restantes -= 1
+    else:  # Si l'emprunt a été mis à jour (par exemple, lors d'un retour)
+        if instance.is_returned:
+            livre.emprunts_en_cours -= 1
+            livre.copies_restantes += 1
+
+    livre.save()  # Sauvegarder les changements dans le modèle Livre
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
