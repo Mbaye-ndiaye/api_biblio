@@ -1,5 +1,13 @@
-from ..models.emprunts import Emprunt
+from ..models.emprunts_models import Emprunt
+from ..models.livres_models import Livre
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import generics
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework import status
 from ..serializers.emprunts_serializers import EmpruntSerializer
+from django.utils import timezone
+
 
 # Cheikh Gueye : Vue pour récupérer, modifier ou supprimer un livre spécifique
 class EmpruntListCreateView(generics.ListCreateAPIView):
@@ -10,16 +18,12 @@ class EmpruntListCreateView(generics.ListCreateAPIView):
         membre_id = request.data.get('membre')
         livre_id = request.data.get('livre')
         livre = Livre.objects.get(id=livre_id)
-        
         # Vérifier si l'utilisateur a déjà 3 emprunts actifs (non retournés)
         active_emprunts = Emprunt.objects.filter(membre_id=membre_id, is_returned=False).count()
 
         if active_emprunts >= 3:
             return Response({'error': 'Vous ne pouvez pas emprunter plus de trois livres en même temps.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        livre_id = request.data.get('livre')
-        livre = Livre.objects.get(id=livre_id)
-        
         # Vérifie si le livre est disponible
         if not livre.is_available():
             return Response({'error': 'Le livre n\'est pas disponible pour l\'emprunt.'}, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import Emprunt
+from .livres_serializers import LivreSerializer
+from .member_serializers import MemberSerializer
+from ..models import Emprunt
 
 class EmpruntSerializer(serializers.ModelSerializer):
     livre_details = LivreSerializer(source='livre', read_only=True)

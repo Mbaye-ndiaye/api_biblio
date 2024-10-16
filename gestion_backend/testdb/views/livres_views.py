@@ -1,5 +1,6 @@
-from ..models.livres import Livre
+from ..models.livres_models import Livre
 from ..serializers.livres_serializers import LivreSerializer
+from rest_framework import generics
 
 # Cheikh Gueye : Vue pour la liste et création des livres
 class LivreListCreateView(generics.ListCreateAPIView):
