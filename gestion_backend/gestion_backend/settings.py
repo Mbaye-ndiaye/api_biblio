@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from celery.schedules import crontab
 from pathlib import Path
 import environ
 env = environ.Env()
@@ -18,13 +18,16 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
 
+SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -40,10 +43,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "testdb",
+    'rest_framework',
+    'knox',
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
-    "testdb",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,6 +95,9 @@ DATABASES = {
         'PASSWORD': env("DB_PASSWORD"),
         'HOST': env("DB_HOST"),
         'PORT': env("DB_PORT"),
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        },
     }
 }
 
@@ -130,3 +142,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000'
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',)
+}
+
+AUTHENTICATION_BACKENDS = [
+    'testdb.authentication.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_USER_MODEL = 'testdb.CustomUser'
+
+# Cheikh Gueye
+CELERY_BEAT_SCHEDULE = {
+    'check-emprunts-every-1-hour': {
+        'task': 'testdb.tasks.check_emprunts',
+        'schedule': crontab(minute=0, hour='*'),
+    },
+}
