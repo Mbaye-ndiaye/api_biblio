@@ -6,8 +6,8 @@ from ..models.auth_models import CustomUser
 # Cheikh Gueye : Création du modèle 'Member' pour les membres
 class Member(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    prenom = models.CharField(max_length=50)
-    nom = models.CharField(max_length=50)
+    prenom = models.CharField(max_length=100)
+    nom = models.CharField(max_length=100)
     telephone = models.CharField(max_length=15, blank=True)
     email = models.EmailField(unique=True)
 
