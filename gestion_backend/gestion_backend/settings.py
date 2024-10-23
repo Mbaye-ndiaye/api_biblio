@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-14&=44w7lzf)u5%q$z_&pc-z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'webdevelopment']
+ALLOWED_HOSTS = ['127.0.0.1', 'webdevelopment', 'postgresql://apigestion_user:TghQLLsaCEEobDb7CedlD7AEkgpu63Cz@dpg-cscf418gph6c73bsglb0-a.oregon-postgres.render.com/apigestion']
 
 
 
