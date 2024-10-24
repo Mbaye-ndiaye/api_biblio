@@ -27,11 +27,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-14&=44w7lzf)u5%q$z_&pc-zf5@f^2*=c79^4cq@em9=9@d^kf')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'webdevelopment', 'postgresql://apigestion_user:TghQLLsaCEEobDb7CedlD7AEkgpu63Cz@dpg-cscf418gph6c73bsglb0-a.oregon-postgres.render.com/apigestion']
+
 
 
 # Application definition
