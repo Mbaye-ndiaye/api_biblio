@@ -3,9 +3,15 @@ from ..models.book import Book
 
 
 class BookSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Book
         fields = '__all__'
+        
+    def get_cover_image(self, obj):
+        if obj.cover_image:
+            return self.context['request'].build_absolute_uri(obj.cover_image.url)
+        return None
         
     def validate_cover_image(self, value):
         if value:
