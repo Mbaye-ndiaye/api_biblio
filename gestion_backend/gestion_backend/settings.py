@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 from celery.schedules import crontab
 from pathlib import Path
+import os
 import environ
 env = environ.Env()
 environ.Env.read_env()
@@ -19,7 +20,7 @@ environ.Env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 # Quick-start development settings - unsuitable for production
