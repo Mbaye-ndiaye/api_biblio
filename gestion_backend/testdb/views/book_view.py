@@ -1,4 +1,4 @@
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,19 +8,19 @@ from ..models.book import Book
 
 
 class BookListCreateView(APIView):
-    parser_classes = [MultiPartParser, FormParser, JSONParser]  # Pour gérer l'upload d'images
+    parser_classes = [MultiPartParser, FormParser] 
 
-    def get(self, request):
-        books = Book.objects.all()
-        serializer = BookSerializer(books, many=True)
+    def get(self, request, *args, **kwargs):
+        books = Book.objects.all()  # Récupérer tous les livres
+        serializer = BookSerializer(books, many=True, context={'request': request})  
         return Response(serializer.data)
 
-    def post(self, request):
-        serializer = BookSerializer(data=request.data)
+    def post(self, request, *args, **kwargs):
+        serializer = BookSerializer(data=request.data, context={'request': request})  
         if serializer.is_valid():
-            serializer.save(available_copies=request.data.get('total_copies'))
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
 class BookDetailView(APIView):
     def get_object(self, pk):
