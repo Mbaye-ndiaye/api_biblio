@@ -35,7 +35,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -95,9 +95,9 @@ WSGI_APPLICATION = 'gestion_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-"""DATABASES = {
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env("DB_NAME"),
         'USER': env("DB_USER"),
         'PASSWORD': env("DB_PASSWORD"),
@@ -107,13 +107,13 @@ WSGI_APPLICATION = 'gestion_backend.wsgi.application'
             'client_encoding': 'UTF8',
         },
     }
-}"""
-
-
-
-DATABASES = {
-    'default': dj_database_url.parse(env['DATABASE_URL'])
 }
+
+
+
+#DATABASES = {
+ #   'default': dj_database_url.parse(env('DATABASE_URL'))
+#}
 
 
 #DATABASES['default'] = dj_database_url.parse("postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46")
