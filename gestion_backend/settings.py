@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import dj_database_url
 from celery.schedules import crontab
 from pathlib import Path
 import os
@@ -33,6 +34,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
@@ -95,7 +97,7 @@ WSGI_APPLICATION = 'gestion_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env("DB_NAME"),
         'USER': env("DB_USER"),
         'PASSWORD': env("DB_PASSWORD"),
@@ -107,8 +109,16 @@ DATABASES = {
     }
 }
 
-# postgresql://bakeli_django_render_user:zELFjo43ZORG49WVzfASHNNuk0R1LHhx@dpg-cs8j6pi3esus73aqotfg-a.oregon-postgres.render.com/bakeli_django_render
 
+
+#DATABASES = {
+ #   'default': dj_database_url.parse(env('DATABASE_URL'))
+#}
+
+
+#DATABASES['default'] = dj_database_url.parse("postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46")
+
+# postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -155,6 +165,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000', 
     'http://192.168.68.217:8181'
+
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
