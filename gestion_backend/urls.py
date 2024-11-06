@@ -23,11 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('testdb.urls')),
 ]
-<<<<<<< HEAD:gestion_backend/urls.py
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-=======
->>>>>>> 15f36c4fe8fb552cab456e427d37fbaf84ebf272:gestion_backend/gestion_backend/urls.py

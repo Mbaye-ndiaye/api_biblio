@@ -55,4 +55,3 @@ def logout(request):
         return Response({
             'error': 'Token invalide'
         }, status=status.HTTP_400_BAD_REQUEST)
-
