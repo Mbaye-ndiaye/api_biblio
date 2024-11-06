@@ -111,12 +111,11 @@ DATABASES = {
 
 
 
-DATABASES = {
-    'default': dj_database_url.parse(env('DATABASE_URL'))
-}
+# DATABASES = {
+#     'default': dj_database_url.parse(env('DATABASE_URL'))
+# }
 
-
-#DATABASES['default'] = dj_database_url.parse("postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46")
+DATABASES['default'] = dj_database_url.parse("postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46")
 
 # postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46
 # Password validation
