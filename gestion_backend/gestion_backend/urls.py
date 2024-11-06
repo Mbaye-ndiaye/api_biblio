@@ -21,4 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('testdb.urls')),
 ]
+<<<<<<< HEAD
 
+=======
+>>>>>>> 15f36c4fe8fb552cab456e427d37fbaf84ebf272
