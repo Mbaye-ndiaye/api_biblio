@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register, login, logout, MemberListCreateView, MemberDetailView, EmpruntListCreateView, EmpruntDetailView
+from .views import register, login, logout, get_user, MemberListCreateView, MemberDetailView, EmpruntListCreateView, EmpruntDetailView
 from .views import BookListCreateView, BookDetailView
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf.urls.static import static
@@ -9,6 +9,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login, name='login'),
     path('logout/', logout, name='logout'),
+    path('get_user/', logout, name='get_user'),
     
     # Endpoints pour les membres
     path('membres/', MemberListCreateView.as_view(), name='member-list-create'),

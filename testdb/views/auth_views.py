@@ -39,7 +39,10 @@ def login(request):
             'error': 'Email ou mot de passe incorrect'
         }, status=status.HTTP_401_UNAUTHORIZED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+@api_view(["GET"])
+def get_user(request):
+    user = request.user
+    return Response(UserRegistrationSerializer(user).data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
