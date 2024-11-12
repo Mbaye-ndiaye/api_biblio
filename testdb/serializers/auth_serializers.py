@@ -28,7 +28,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         #     telephone=validated_data['telephone'],
         #     email=validated_data['email'],
         # )
-        # return user
+        return user
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
