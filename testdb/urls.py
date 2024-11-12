@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register, login, logout, get_user, MemberListCreateView, MemberDetailView, EmpruntListCreateView, EmpruntDetailView
+from .views import register, login, logout, get_users, MemberListCreateView, MemberDetailView, EmpruntListCreateView, EmpruntDetailView
 from .views import BookListCreateView, BookDetailView
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf.urls.static import static
@@ -8,8 +8,8 @@ from django.conf import settings
 urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login, name='login'),
+    path('get_user/', get_users, name='get_user'),
     path('logout/', logout, name='logout'),
-    path('get_user/', logout, name='get_user'),
     
     # Endpoints pour les membres
     path('membres/', MemberListCreateView.as_view(), name='member-list-create'),
@@ -31,3 +31,23 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#     @api_view(["GET"])
+# def get_user(request):
+#     user = request.user
+#     return Response(UserRegistrationSerializer(user).data)

@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from ..serializers.auth_serializers import UserRegistrationSerializer, UserLoginSerializer
+from ..serializers.auth_serializers import CustomUserSerializer
+from ..models.auth_models import CustomUser
 
 @api_view(['POST'])
 def register(request):
@@ -39,10 +41,13 @@ def login(request):
             'error': 'Email ou mot de passe incorrect'
         }, status=status.HTTP_401_UNAUTHORIZED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-@api_view(["GET"])
-def get_user(request):
-    user = request.user
-    return Response(UserRegistrationSerializer(user).data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_users(request):
+    users = CustomUser.objects.all()  # Récupérer tous les utilisateurs inscrits
+    serializer = CustomUserSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
