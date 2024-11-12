@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "testdb",
+    'testdb',
     'rest_framework',
     'knox',
     'rest_framework_simplejwt.token_blacklist',
