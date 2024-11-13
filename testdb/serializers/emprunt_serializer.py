@@ -13,10 +13,6 @@ class EmpruntSerializer(serializers.ModelSerializer):
         fields = ['id', 'livre', 'livre_nom', 'membre', 'membre_nom', 'date_emprunt', 'date_retour', 'rendu']
         read_only_fields = ['date_emprunt', 'rendu']
 
-    def get_membre_nom(self, obj):
-        """Méthode pour obtenir le prénom et nom complet du membre."""
-        return f"{obj.membre.prenom} {obj.membre.nom}" if obj.membre else ""
-
     def create(self, validated_data):
         livre = validated_data['livre']
         if livre.available_copies <= 0:

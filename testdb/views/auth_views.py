@@ -131,7 +131,6 @@ def login(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_users(request):
     users = CustomUser.objects.all()  # Récupérer tous les utilisateurs inscrits
     serializer = CustomUserSerializer(users, many=True)

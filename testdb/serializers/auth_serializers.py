@@ -1,7 +1,7 @@
 # myapp/serializers/auth_serializers.py
 from rest_framework import serializers
 from ..models.auth_models import CustomUser  
-from ..models.member_models import Member
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -19,14 +19,89 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name'],
             telephone=validated_data['telephone'],
         )
-       
         return user
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
+
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name', 'telephone']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # myapp/serializers/auth_serializers.py
+# from rest_framework import serializers
+# from ..models.auth_models import CustomUser  
+# from ..models.member_models import Member
+# class UserRegistrationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CustomUser
+#         fields = ('id', 'email', 'password', 'first_name', 'last_name', 'telephone')
+#         extra_kwargs = {
+#             'password': {'write_only': True},
+#             'id': {'read_only': True}
+#         }
+
+#     def create(self, validated_data):
+#         user = CustomUser.objects.create_user(
+#             email=validated_data['email'],
+#             password=validated_data['password'],
+#             first_name=validated_data['first_name'],
+#             last_name=validated_data['last_name'],
+#             telephone=validated_data['telephone'],
+#         )
+        
+#         # Cheikh Gueye : Créer le membre associé à l'utilisateur inscrit
+#         Member.objects.create(
+#             user=user,
+#             prenom=validated_data['first_name'],
+#             nom=validated_data['last_name'],
+#             telephone=validated_data['telephone'],
+#             email=validated_data['email'],
+#         )
+#         return user
+
+# class UserLoginSerializer(serializers.Serializer):
+#     email = serializers.EmailField()
+#     password = serializers.CharField(write_only=True)
+
+# class CustomUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CustomUser
+#         fields = ['id', 'email', 'first_name', 'last_name', 'telephone']
+
