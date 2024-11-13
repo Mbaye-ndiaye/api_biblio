@@ -12,4 +12,4 @@ class Member(models.Model):
     email = models.EmailField(unique=True)
 
     def __str__(self):
-        return f"{self.prenom} {self.nom}"
+        return f"{self.prenom} {self.nom}" 
