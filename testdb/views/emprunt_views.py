@@ -97,6 +97,10 @@ from ..models.emprunt_model import Emprunt
 from ..serializers.emprunt_serializer import EmpruntSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from django.utils import timezone
+from django.http import Http404
+
+
 
 class EmpruntListCreateView(APIView):
     permission_classes = [IsAuthenticated]
