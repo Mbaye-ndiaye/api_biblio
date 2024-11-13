@@ -96,26 +96,26 @@ WSGI_APPLICATION = 'gestion_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("DB_NAME"),
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT': env("DB_PORT"),
-        'OPTIONS': {
-            'client_encoding': 'UTF8',
-        },
-    }
-}
-
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default=env('DATABASE_URL'),
-#         conn_max_age=600
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env("DB_NAME"),
+#         'USER': env("DB_USER"),
+#         'PASSWORD': env("DB_PASSWORD"),
+#         'HOST': env("DB_HOST"),
+#         'PORT': env("DB_PORT"),
+#         'OPTIONS': {
+#             'client_encoding': 'UTF8',
+#         },
+#     }
 # }
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=env('DATABASE_URL'),
+        conn_max_age=600
+    )
+}
 
 
 # DATABASES['default'] = dj_database_url.parse("postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46")
@@ -166,7 +166,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://192.168.68.172:8181'
+    # 'http://192.168.68.172:8181'
     
 ]
 
