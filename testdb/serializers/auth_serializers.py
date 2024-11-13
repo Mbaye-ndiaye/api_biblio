@@ -19,15 +19,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name'],
             telephone=validated_data['telephone'],
         )
-        
-        # Cheikh Gueye : Créer le membre associé à l'utilisateur inscrit
-        # Member.objects.create(
-        #     user=user,
-        #     prenom=validated_data['first_name'],
-        #     nom=validated_data['last_name'],
-        #     telephone=validated_data['telephone'],
-        #     email=validated_data['email'],
-        # )
+       
         return user
 
 class UserLoginSerializer(serializers.Serializer):

@@ -22,7 +22,7 @@ urlpatterns = [
     # Endpoint pour rendre un emprunt
         
     # Endpoint pour rafraîchir le token
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     
     path('books/', BookListCreateView.as_view(), name='book-list-create'),  
