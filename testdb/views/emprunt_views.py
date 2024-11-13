@@ -99,7 +99,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
 from django.http import Http404
-
+from ..models.member_models import Member
 
 
 class EmpruntListCreateView(APIView):
@@ -111,6 +111,11 @@ class EmpruntListCreateView(APIView):
             return Response({"error": "Utilisateur non authentifié"}, 
                           status=status.HTTP_401_UNAUTHORIZED)
 
+        if not Member.objects.filter(user=request.user).exists():
+            return Response(
+                {"error": "Membre introuvable pour cet utilisateur."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         # Vérification du nombre d'emprunts en cours
         emprunts_en_cours = Emprunt.objects.filter(
             membre=request.user, 
