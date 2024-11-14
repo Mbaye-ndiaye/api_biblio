@@ -14,3 +14,21 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gestion_backend.settings')
 
 application = get_wsgi_application()
+
+
+
+# SECRET_KEY=django-insecure-14&=44w7lzf)u5%q$z_&pc-zf5@f^2*=c79^4cq@em9=9@d^kf
+# # DB_NAME=postgresql_django_ag46
+# # DB_USER=postgresql_django_ag46_user
+# # DB_PASSWORD=2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV
+# # DB_HOST=dpg-csl0equ8ii6s7382mdu0-a
+# # DB_PORT=5432
+# DATABASE_URL=postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46
+
+# #DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/NAME
+
+# # DB_NAME=djangoApi
+# # DB_USER=postgres
+# # DB_PASSWORD=2024
+# # DB_HOST=localhost
+# # DB_PORT=5432
