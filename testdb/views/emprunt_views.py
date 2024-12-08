@@ -243,6 +243,11 @@ class EmpruntDetailView(APIView):
     # permission_classes = [IsAuthenticated]
 
     def get_object(self, pk):
+        """
+        Récupérer la liste de tous les todos.
+
+        Cette API retourne tous les éléments Todo dans la base de données sous forme de liste.
+        """
         try:
             return Emprunt.objects.get(pk=pk)
         except Emprunt.DoesNotExist:

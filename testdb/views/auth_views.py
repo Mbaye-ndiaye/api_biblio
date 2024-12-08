@@ -132,6 +132,11 @@ def login(request):
 
 @api_view(['GET'])
 def get_users(request):
+    """
+    Récupérer la liste de tous les utilsateurs.
+
+    Cette API retourne tous les éléments Todo dans la base de données sous forme de liste.
+    """
     users = CustomUser.objects.all()  # Récupérer tous les utilisateurs inscrits
     serializer = CustomUserSerializer(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

@@ -11,11 +11,17 @@ class BookListCreateView(APIView):
     parser_classes = [MultiPartParser, FormParser] 
 
     def get(self, request, *args, **kwargs):
+        """
+        Récupérer la liste de tous les books.
+
+        Cette API retourne tous les éléments Todo dans la base de données sous forme de liste.
+        """
         books = Book.objects.all()  # Récupérer tous les livres
         serializer = BookSerializer(books, many=True, context={'request': request})  
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
+        
         serializer = BookSerializer(data=request.data, context={'request': request})  
         if serializer.is_valid():
             serializer.save()
