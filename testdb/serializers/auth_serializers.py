@@ -3,6 +3,11 @@ from rest_framework import serializers
 from ..models.auth_models import CustomUser  
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    """
+    Sérialiseur pour afficher les informations d'un utilisateur.
+
+    Ce sérialiseur transforme un objet `CustomUser` en JSON pour la vue des données utilisateur.
+    """
     class Meta:
         model = CustomUser
         fields = ('id', 'email', 'password', 'first_name', 'last_name', 'telephone')
@@ -31,7 +36,13 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name', 'telephone']
 
-
+        extra_kwargs = {
+            'id': {'read_only': True, 'help_text': 'Identifiant unique de l\'utilisateur.'},
+            'email': {'help_text': 'Adresse e-mail de l\'utilisateur.'},
+            'first_name': {'help_text': 'Prénom de l\'utilisateur.'},
+            'last_name': {'help_text': 'Nom de famille de l\'utilisateur.'},
+            'telephone': {'help_text': 'Numéro de téléphone de l\'utilisateur.'},
+        }
 
 
 
