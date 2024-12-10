@@ -3,7 +3,6 @@ from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
 
 
-
 def validate_image_type(value):
     if not value.content_type in ['image/jpeg', 'image/png']:
         raise ValidationError("Le type de fichier doit être PNG ou JPG.")
@@ -17,6 +16,8 @@ class Book(models.Model):
     cover_image = models.ImageField(upload_to='book_covers/', blank=True, null=True, validators=[validate_image_type], help_text="Image de couverture")
     total_copies = models.PositiveIntegerField(validators=[MinValueValidator(1)], help_text="Nombre total d'exemplaires")
     available_copies = models.PositiveIntegerField(validators=[MinValueValidator(0)], help_text="Nombre d'exemplaires disponibles")
+    pdf_file = models.FileField(upload_to='book_pdfs/', blank=True, null=True, help_text="Fichier PDF du livre")
+
 
     def __str__(self):
         return self.title
