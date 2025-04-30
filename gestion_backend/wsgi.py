@@ -1,0 +1,21 @@
+"""
+WSGI config for gestion_backend project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
+"""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gestion_backend.settings')
+
+application = get_wsgi_application()
+
+
+
+# SECRET_KEY=django-insecure-14&=44w7lzf)u5%q$z_&pc-zf5@f^2*=c79^4cq@em9=9@d^kf
+# DATABASE_URL=postgresql://postgresql_django_ag46_user:2fqjnkHBpaNOFwqCApXmvrVapaZDT8YV@dpg-csl0equ8ii6s7382mdu0-a.oregon-postgres.render.com/postgresql_django_ag46
